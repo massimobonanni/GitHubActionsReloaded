@@ -41,3 +41,18 @@ Required reviewers are configured separately in GitHub environment settings.
 Free/Pro/Team require a PUBLIC repo for required-reviewer approval; check policy.
 Never publish demo keys or .azure local state. Client/tenant/subscription IDs are
 configuration variables, not authentication passwords.
+
+Automatic issue assignment to Copilot:
+  Template: workflows/IssueToCopilot.yml. To activate it, place a copy in
+  .github/workflows/IssueToCopilot.yml on the default branch.
+  Runs only when an issue is opened by a human repository owner, an existing
+  contributor (GitHub author_association CONTRIBUTOR), or a user with write,
+  maintain or admin access. Organization membership alone is not sufficient.
+  Enable Copilot coding agent for the repository and for the token owner.
+  Add the Actions secret COPILOT_ASSIGNMENT_TOKEN with a fine-grained user PAT:
+  Metadata read; Actions, Contents, Issues and Pull requests read/write for this
+  repository. A classic PAT with repo scope is also supported by GitHub.
+  The token owner needs write access and an eligible Copilot subscription.
+  GITHUB_TOKEN alone cannot start the agent. Existing assignees are preserved.
+  Assignment starts agent work, not an automatic merge or guaranteed fix.
+  Contributor issues can trigger billable agent work; enable only if intended.
