@@ -1,0 +1,12 @@
+name: excuseops
+metadata:
+  template: excuseops-devfest-2026
+infra:
+  provider: bicep
+  path: infra
+  module: main
+services:
+  web:
+    project: src/ExcuseOps.Web
+    language: dotnet
+    host: appservice

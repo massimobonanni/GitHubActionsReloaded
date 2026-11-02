@@ -1,0 +1,28 @@
+name: ExcuseOps release summary
+description: A tiny local composite action; no tokens and no network calls.
+inputs:
+  artifact-name:
+    description: Name of the immutable build artifact.
+    required: true
+  stage:
+    description: Human-readable pipeline stage.
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Write a release receipt
+      shell: pwsh
+      env:
+        SUMMARY_ARTIFACT: ${{ inputs.artifact-name }}
+        SUMMARY_STAGE: ${{ inputs.stage }}
+      run: |
+        $artifact = [System.Net.WebUtility]::HtmlEncode($env:SUMMARY_ARTIFACT)
+        $stage = [System.Net.WebUtility]::HtmlEncode($env:SUMMARY_STAGE)
+        @"
+        ### ExcuseOps release receipt
+        - Stage: $stage
+        - Artifact: $artifact
+        - Commit: $env:GITHUB_SHA
+        - Run: $env:GITHUB_RUN_NUMBER
+        - Philosophy: build once, blame less.
+        "@ >> $env:GITHUB_STEP_SUMMARY

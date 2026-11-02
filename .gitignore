@@ -1,0 +1,12 @@
+**/bin/
+**/obj/
+.azure/
+.tools/
+.validation/
+out/
+TestResults/
+*.user
+.env
+.env.*
+!.env.example
+infra/main.json

@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ExcuseOps | Ship Happens</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("scoutTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--cp-bg); color: var(--cp-text); font: 18px/1.5 "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif; }
+    main { max-width: 1000px; margin: auto; padding: 48px 24px; }
+    .eyebrow { color: var(--cp-accent); text-transform: uppercase; letter-spacing: .1em; font-size: 14px; font-weight: 700; }
+    h1 { font-size: clamp(48px, 8vw, 80px); line-height: 1.1; margin: 12px 0; }
+    .intro, footer { color: var(--cp-text-muted); }
+    .stage { display: inline-block; border: 1px solid var(--cp-border); padding: 4px 12px; border-radius: 10px; background: var(--cp-surface); }
+    article { margin: 32px 0; border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface); padding: 32px; }
+    blockquote { font-size: clamp(24px, 4vw, 36px); margin: 16px 0 32px; min-height: 108px; }
+    label { display: block; font-size: 16px; color: var(--cp-text-muted); margin-bottom: 8px; }
+    .controls { display: flex; align-items: end; flex-wrap: wrap; gap: 16px; }
+    select, button { font: inherit; border-radius: 10px; padding: 12px 20px; }
+    select { background: var(--cp-surface); color: var(--cp-text); border: 1px solid var(--cp-border-strong); }
+    button { background: var(--cp-accent); color: var(--cp-accent-fg); border: 1px solid var(--cp-accent); cursor: pointer; font-weight: 600; }
+    button:hover { background: var(--cp-accent-hover); }
+    button:disabled { opacity: .6; cursor: wait; }
+    :focus-visible { outline: 3px solid var(--cp-accent); outline-offset: 4px; }
+    code { font: 15px Consolas, "Courier New", Courier, monospace; color: var(--cp-text-soft); }
+    a { color: var(--cp-link); }
+    #message { min-height: 24px; color: var(--cp-danger); }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">Ship Happens · GitHub Actions Beyond CI/CD</p>
+      <h1>ExcuseOps</h1>
+      <p class="intro">Reliable automation. Questionable excuses.</p>
+      <p class="stage" id="stage">Checking environment…</p>
+    </header>
+    <article aria-labelledby="excuse-title">
+      <h2 id="excuse-title">Your next incident update</h2>
+      <blockquote id="excuse" aria-live="polite">It works on my machine. My machine has declined to comment.</blockquote>
+      <div class="controls">
+        <div>
+          <label for="category">What went wrong?</label>
+          <select id="category">
+            <option value="">Everything (classic)</option>
+            <option value="code">The code</option>
+            <option value="cloud">The cloud</option>
+            <option value="meetings">The meetings</option>
+          </select>
+        </div>
+        <button id="generate" type="button">Generate a better excuse</button>
+      </div>
+      <p id="message" role="status"></p>
+      <code>GET /api/excuses · no AI, no external services, no plausible deniability</code>
+    </article>
+    <footer>
+      <p>Build once. Promote the same ZIP. Let a human approve production.</p>
+      <p><a href="/health">Health</a> · <a href="/api/excuses?category=cloud&amp;variant=0">Deterministic API example</a></p>
+      <p>The VIP excuse requires a server-side demo key. Keys never belong in this page.</p>
+    </footer>
+  </main>
+  <script>
+    const button = document.querySelector("#generate");
+    button.addEventListener("click", async () => {
+      button.disabled = true;
+      document.querySelector("#message").textContent = "";
+      try {
+        const category = document.querySelector("#category").value;
+        const response = await fetch("/api/excuses" + (category ? "?category=" + encodeURIComponent(category) : ""));
+        if (!response.ok) throw new Error("The excuse service needs an excuse. Try again.");
+        document.querySelector("#excuse").textContent = (await response.json()).text;
+      } catch (error) {
+        document.querySelector("#message").textContent = error.message;
+      } finally {
+        button.disabled = false;
+      }
+    });
+    (async () => {
+      try {
+        const response = await fetch("/health");
+        if (!response.ok) throw new Error("Health check failed");
+        const health = await response.json();
+        document.querySelector("#stage").textContent = "Environment: " + health.stage + " · " + health.status;
+      } catch {
+        document.querySelector("#stage").textContent = "Environment unavailable · check /health";
+      }
+    })();
+  </script>
+</body>
+</html>
