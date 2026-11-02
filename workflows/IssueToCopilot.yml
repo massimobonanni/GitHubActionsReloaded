@@ -1,3 +1,9 @@
+#
+# Assign issues to Copilot if eligible
+# The workflow checks if the issue author is eligible and assigns Copilot
+# Only runs for user issues
+# Uses COPILOT_TOKEN for assignment. Must have proper permissions (Actions, Contents, Issues, Pull requests) read-write
+#
 name: Assign eligible issues to Copilot
 
 on:
