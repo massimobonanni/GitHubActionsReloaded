@@ -15,9 +15,9 @@ jobs:
       - name: Check the author and assign Copilot
         uses: actions/github-script@v8
         env:
-          COPILOT_ASSIGNMENT_TOKEN: ${{ secrets.COPILOT_ASSIGNMENT_TOKEN }}
+          COPILOT_ASSIGNMENT_TOKEN: ${{ secrets.COPILOT_TOKEN }}
         with:
-          github-token: ${{ secrets.COPILOT_ASSIGNMENT_TOKEN || github.token }}
+          github-token: ${{ secrets.COPILOT_TOKEN || github.token }}
           script: |
             if (!process.env.COPILOT_ASSIGNMENT_TOKEN) {
               core.setFailed('Configure COPILOT_ASSIGNMENT_TOKEN with a user token authorized to assign Copilot.');
