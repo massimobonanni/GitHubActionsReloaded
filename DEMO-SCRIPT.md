@@ -171,24 +171,40 @@ slots). Reuse the same template for two azd environments:
 
 | azd environment | `DEPLOYMENT_STAGE` | GitHub environment | OIDC subject |
 |---|---|---|---|
-| `excuseops-test` | `test` | `test` | `repo:OWNER/REPO:environment:test` |
-| `excuseops-prod` | `production` | `production` | `repo:OWNER/REPO:environment:production` |
+| `excuseops-test` | `test` | `test` | `repo:OWNER@OWNER_ID/REPO@REPO_ID:environment:test` |
+| `excuseops-prod` | `production` | `production` | `repo:OWNER@OWNER_ID/REPO@REPO_ID:environment:production` |
 
 `production` is deliberately spelled out everywhere except the azd environment
 suffix `-prod`. Case in `OWNER/REPO` must match the actual GitHub OIDC subject.
+The immutable subject retains the names and appends the numeric owner and
+repository IDs. `OWNER_ID` identifies the repository's owning user or organization,
+not the workflow actor. Retrieve both IDs with `gh api repos/OWNER/REPO --jq '{ownerId: .owner.id, repositoryId: .id}'`.
+The templates require `githubOwnerId` and `githubRepositoryId`, mapped from
+`GITHUB_REPOSITORY_OWNER_ID` and `GITHUB_REPOSITORY_ID` in the azd environment.
 
-**Run only yourself, off stage, after replacing the two placeholders:**
+GitHub must emit the immutable subject: opt existing repositories into this format
+in their GitHub OIDC settings before running deployment workflows. See the
+[Microsoft Entra migration guide](https://learn.microsoft.com/en-us/entra/workload-id/workload-identities-github-immutable-subjects).
+Reprovisioning with these templates replaces the existing stage credential's
+subject; it does not retain a parallel legacy credential. Coordinate this change
+with the GitHub OIDC setting off stage to avoid failed logins during migration.
+
+**Run only yourself, off stage, after replacing the placeholders:**
 
 ```powershell
 azd auth login
 az login
 $subscriptionId = 'YOUR-AZURE-SUBSCRIPTION-GUID'
 $repo = 'OWNER/REPO'
+$githubOwnerId = 'OWNER_ID'
+$githubRepositoryId = 'REPO_ID'
 $location = 'westeurope'
 
 azd env new excuseops-test --subscription $subscriptionId --location $location
 azd env set DEPLOYMENT_STAGE test
 azd env set GITHUB_REPOSITORY $repo
+azd env set GITHUB_REPOSITORY_OWNER_ID $githubOwnerId
+azd env set GITHUB_REPOSITORY_ID $githubRepositoryId
 
 # A protected password prompt; not a shell literal or azd env set.
 $secureKey = Read-Host 'TEST demo key (24+ characters; save securely)' -AsSecureString
@@ -202,6 +218,8 @@ $secureKey.Dispose()
 azd env new excuseops-prod --subscription $subscriptionId --location $location
 azd env set DEPLOYMENT_STAGE production
 azd env set GITHUB_REPOSITORY $repo
+azd env set GITHUB_REPOSITORY_OWNER_ID $githubOwnerId
+azd env set GITHUB_REPOSITORY_ID $githubRepositoryId
 $secureKey = Read-Host 'PRODUCTION demo key (different, 24+ characters)' -AsSecureString
 $env:DEMO_API_KEY = [System.Net.NetworkCredential]::new('', $secureKey).Password
 azd provision

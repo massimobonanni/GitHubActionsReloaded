@@ -4,11 +4,20 @@ param environmentName string
 param deploymentStage string
 param githubRepository string
 
+@description('Numeric GitHub ID of the repository owner (user or organization), not the workflow actor.')
+@minLength(1)
+param githubOwnerId string
+
+@description('Numeric GitHub repository ID.')
+@minLength(1)
+param githubRepositoryId string
+
 @secure()
 param demoApiKey string
 
 var suffix = uniqueString(subscription().id, resourceGroup().id)
 var appName = 'excuseops-${deploymentStage}-${suffix}'
+var githubRepositoryParts = split(githubRepository, '/')
 var websiteContributor = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'de139f84-1756-47ae-9be6-808fbbe84772')
 
 resource plan 'Microsoft.Web/serverfarms@2024-04-01' = {
@@ -93,7 +102,7 @@ resource githubFederation 'Microsoft.ManagedIdentity/userAssignedIdentities/fede
   name: 'github-${deploymentStage}'
   properties: {
     issuer: 'https://token.actions.githubusercontent.com'
-    subject: 'repo:${githubRepository}:environment:${deploymentStage}'
+    subject: 'repo:${githubRepositoryParts[0]}@${githubOwnerId}/${githubRepositoryParts[1]}@${githubRepositoryId}:environment:${deploymentStage}'
     audiences: [
       'api://AzureADTokenExchange'
     ]

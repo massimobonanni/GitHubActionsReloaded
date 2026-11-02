@@ -6,6 +6,8 @@
     "location": { "value": "${AZURE_LOCATION}" },
     "deploymentStage": { "value": "${DEPLOYMENT_STAGE}" },
     "githubRepository": { "value": "${GITHUB_REPOSITORY}" },
+    "githubOwnerId": { "value": "${GITHUB_REPOSITORY_OWNER_ID}" },
+    "githubRepositoryId": { "value": "${GITHUB_REPOSITORY_ID}" },
     "demoApiKey": { "value": "${DEMO_API_KEY}" }
   }
 }

@@ -9,6 +9,14 @@ param deploymentStage string
 @description('Exact, case-sensitive GitHub OWNER/REPO, with no URL prefix.')
 param githubRepository string
 
+@description('Numeric GitHub ID of the repository owner (user or organization), not the workflow actor.')
+@minLength(1)
+param githubOwnerId string
+
+@description('Numeric GitHub repository ID.')
+@minLength(1)
+param githubRepositoryId string
+
 @secure()
 @minLength(24)
 param demoApiKey string
@@ -34,6 +42,8 @@ module web 'web.bicep' = {
     environmentName: environmentName
     deploymentStage: deploymentStage
     githubRepository: githubRepository
+    githubOwnerId: githubOwnerId
+    githubRepositoryId: githubRepositoryId
     demoApiKey: demoApiKey
   }
 }
