@@ -22,5 +22,245 @@
   {
     "category": "meetings",
     "text": "We need alignment. The YAML already has excellent indentation."
+  },
+  {
+    "category": "code",
+    "text": "The bug passed its performance review and was promoted to production."
+  },
+  {
+    "category": "code",
+    "text": "The compiler understood me perfectly; it just disagreed with my approach."
+  },
+  {
+    "category": "code",
+    "text": "I fixed the typo, but the typo had already become part of the architecture."
+  },
+  {
+    "category": "code",
+    "text": "The function is recursive because it keeps asking itself for more time."
+  },
+  {
+    "category": "code",
+    "text": "The code is not broken; it is exploring an alternative execution path."
+  },
+  {
+    "category": "code",
+    "text": "My debugger and I have agreed to remember this differently."
+  },
+  {
+    "category": "code",
+    "text": "The semicolon was present, but it had entered witness protection."
+  },
+  {
+    "category": "code",
+    "text": "The feature is complete, pending a small negotiation with reality."
+  },
+  {
+    "category": "code",
+    "text": "The variable changed its name halfway through the sprint."
+  },
+  {
+    "category": "code",
+    "text": "I optimized the loop until it became too fast to reproduce."
+  },
+  {
+    "category": "code",
+    "text": "The API returned exactly what I asked for, not what I meant."
+  },
+  {
+    "category": "code",
+    "text": "The merge conflict was a creative difference between two past versions of me."
+  },
+  {
+    "category": "code",
+    "text": "The cache remembered an older, more confident version of the truth."
+  },
+  {
+    "category": "code",
+    "text": "The null value was a surprise guest and nobody had set an extra place."
+  },
+  {
+    "category": "code",
+    "text": "The patch works beautifully when nobody asks it questions."
+  },
+  {
+    "category": "code",
+    "text": "The build is waiting for its dependencies to finish networking."
+  },
+  {
+    "category": "code",
+    "text": "The bug only appears when observed, like a very unhelpful quantum particle."
+  },
+  {
+    "category": "code",
+    "text": "The test fixture moved out, but it left its data behind."
+  },
+  {
+    "category": "code",
+    "text": "The code review found a flaw that had been hiding in plain indentation."
+  },
+  {
+    "category": "code",
+    "text": "The deployment was ready, but the code wanted one last dramatic reveal."
+  },
+  {
+    "category": "cloud",
+    "text": "The serverless function has taken the phrase 'no server' very literally."
+  },
+  {
+    "category": "cloud",
+    "text": "Our region is available; it is just taking a scenic route to the internet."
+  },
+  {
+    "category": "cloud",
+    "text": "The autoscaler scaled up, then scaled down to reconsider."
+  },
+  {
+    "category": "cloud",
+    "text": "The container is healthy, but it has requested a quieter neighborhood."
+  },
+  {
+    "category": "cloud",
+    "text": "The deployment is waiting for the clouds to part."
+  },
+  {
+    "category": "cloud",
+    "text": "Our load balancer is distributing traffic according to its own sense of fairness."
+  },
+  {
+    "category": "cloud",
+    "text": "The database replica is catching up on a very long weekend."
+  },
+  {
+    "category": "cloud",
+    "text": "The secret rotated itself into a secret identity."
+  },
+  {
+    "category": "cloud",
+    "text": "The virtual machine is real enough to be late."
+  },
+  {
+    "category": "cloud",
+    "text": "The backup completed successfully in a parallel universe."
+  },
+  {
+    "category": "cloud",
+    "text": "Our latency is measuring the distance between here and a better timeline."
+  },
+  {
+    "category": "cloud",
+    "text": "The firewall has developed a strong preference for saying no."
+  },
+  {
+    "category": "cloud",
+    "text": "The storage account is full of memories and one very large log file."
+  },
+  {
+    "category": "cloud",
+    "text": "The deployment slot is getting ready backstage."
+  },
+  {
+    "category": "cloud",
+    "text": "The DNS record is still deciding what it wants to be when it resolves."
+  },
+  {
+    "category": "cloud",
+    "text": "The monitoring alert fired because the monitor was feeling observant."
+  },
+  {
+    "category": "cloud",
+    "text": "The cluster has quorum, but nobody can agree on the agenda."
+  },
+  {
+    "category": "cloud",
+    "text": "The cloud bill is a weather report for our resource usage."
+  },
+  {
+    "category": "cloud",
+    "text": "The network route took a detour to avoid an awkward conversation."
+  },
+  {
+    "category": "cloud",
+    "text": "The service is available everywhere except the places we checked."
+  },
+  {
+    "category": "meetings",
+    "text": "The agenda was ready, but it needed a pre-meeting to build confidence."
+  },
+  {
+    "category": "meetings",
+    "text": "We ran out of time just before reaching the part with the decisions."
+  },
+  {
+    "category": "meetings",
+    "text": "The meeting could have been an email, but the email requested a meeting."
+  },
+  {
+    "category": "meetings",
+    "text": "We are waiting for everyone to join so we can discuss who has not joined."
+  },
+  {
+    "category": "meetings",
+    "text": "The action items are forming a committee to decide who owns them."
+  },
+  {
+    "category": "meetings",
+    "text": "We achieved consensus that consensus can wait until next week."
+  },
+  {
+    "category": "meetings",
+    "text": "The calendar invite was accepted by everyone except the calendar."
+  },
+  {
+    "category": "meetings",
+    "text": "We need one more slide to explain why we need one more slide."
+  },
+  {
+    "category": "meetings",
+    "text": "The discussion is on track; the track has several scenic branches."
+  },
+  {
+    "category": "meetings",
+    "text": "We postponed the decision to give it more room to mature."
+  },
+  {
+    "category": "meetings",
+    "text": "The notes are comprehensive, including the parts nobody remembers saying."
+  },
+  {
+    "category": "meetings",
+    "text": "We are aligned, just facing in slightly different directions."
+  },
+  {
+    "category": "meetings",
+    "text": "The meeting link works; it is the concept of time that is unavailable."
+  },
+  {
+    "category": "meetings",
+    "text": "We need a follow-up to determine whether this meeting needs a follow-up."
+  },
+  {
+    "category": "meetings",
+    "text": "The presenter shared the wrong screen, but it was a very informative one."
+  },
+  {
+    "category": "meetings",
+    "text": "The action plan is in draft because the actions are still negotiating."
+  },
+  {
+    "category": "meetings",
+    "text": "We scheduled the meeting for an hour and used all of its minutes."
+  },
+  {
+    "category": "meetings",
+    "text": "The question was excellent; unfortunately, it arrived after the answer."
+  },
+  {
+    "category": "meetings",
+    "text": "We are circling back, but someone has moved the circle."
+  },
+  {
+    "category": "meetings",
+    "text": "The meeting ended on time in a timezone none of us recognized."
   }
 ]
