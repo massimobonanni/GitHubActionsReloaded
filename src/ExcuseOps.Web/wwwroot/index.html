@@ -97,30 +97,42 @@
     </header>
     <article aria-labelledby="excuse-title">
       <h2 id="excuse-title">Your next incident update</h2>
-      <blockquote id="excuse" aria-live="polite">It works on my machine. My machine has declined to comment.</blockquote>
+      <blockquote id="excuse" aria-live="polite">Your next excuse is one click away.</blockquote>
       <div class="controls">
         <div>
           <label for="category">What went wrong?</label>
-          <select id="category">
-            <option value="">Everything (classic)</option>
-            <option value="code">The code</option>
-            <option value="cloud">The cloud</option>
-            <option value="meetings">The meetings</option>
+          <select id="category" disabled>
+            <option value="">Everything</option>
           </select>
         </div>
-        <button id="generate" type="button">Generate a better excuse</button>
+        <button id="generate" type="button" disabled>Generate a better excuse</button>
       </div>
       <p id="message" role="status"></p>
       <code>GET /api/excuses · no AI, no external services, no plausible deniability</code>
     </article>
     <footer>
       <p>Build once. Promote the same ZIP. Let a human approve production.</p>
-      <p><a href="/health">Health</a> · <a href="/api/excuses?category=cloud&amp;variant=0">Deterministic API example</a></p>
+      <p><a href="/health">Health</a> · <a href="/api/excuses?variant=0">Deterministic API example</a></p>
       <p>The VIP excuse requires a server-side demo key. Keys never belong in this page.</p>
     </footer>
   </main>
   <script>
     const button = document.querySelector("#generate");
+    (async () => {
+      try {
+        const response = await fetch("/api/categories");
+        if (!response.ok) throw new Error("Categories could not be loaded. Reload the page to try again.");
+        const categories = await response.json();
+        const select = document.querySelector("#category");
+        for (const category of categories) {
+          select.add(new Option(category, category));
+        }
+        select.disabled = false;
+        button.disabled = false;
+      } catch (error) {
+        document.querySelector("#message").textContent = error.message;
+      }
+    })();
     button.addEventListener("click", async () => {
       button.disabled = true;
       document.querySelector("#message").textContent = "";

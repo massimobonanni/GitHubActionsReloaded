@@ -1,32 +1,53 @@
+using System.Text.Json;
+
 namespace ExcuseOps.Web;
 
 public sealed record Excuse(string Category, string Text);
 
-public static class ExcuseCatalog
+public sealed class ExcuseCatalog : IExcuseCatalog
 {
-    public static IReadOnlyList<string> Categories { get; } =
-        Array.AsReadOnly(new[] { "code", "cloud", "meetings" });
+    public IReadOnlyList<Excuse> Items { get; }
+    public IReadOnlyList<string> Categories { get; }
 
-    private static readonly Excuse[] Items =
-    [
-        new("code", "It works on my machine. My machine has declined to comment."),
-        new("code", "The tests passed. The users were not in the test matrix."),
-        new("cloud", "The cloud is just someone else's computer having a Monday."),
-        new("cloud", "We achieved zero downtime by never deploying."),
-        new("meetings", "The fix is ready. It is waiting for a meeting about the meeting."),
-        new("meetings", "We need alignment. The YAML already has excellent indentation.")
-    ];
+    public ExcuseCatalog(IWebHostEnvironment environment)
+    {
+        var path = Path.Combine(environment.WebRootPath, "data", "excuses.json");
+        using var stream = File.OpenRead(path);
+        Excuse[]? items;
+        try
+        {
+            items = JsonSerializer.Deserialize<Excuse[]>(stream, JsonSerializerOptions.Web);
+        }
+        catch (JsonException exception)
+        {
+            throw new InvalidDataException($"The excuse catalog '{path}' contains invalid JSON.", exception);
+        }
 
-    public static Excuse Pick(string? category = null, int? variant = null)
+        if (items is null || items.Length == 0)
+            throw new InvalidDataException($"The excuse catalog '{path}' must contain at least one excuse.");
+
+        for (var index = 0; index < items.Length; index++)
+        {
+            var item = items[index];
+            if (item is null || string.IsNullOrWhiteSpace(item.Category) || string.IsNullOrWhiteSpace(item.Text))
+                throw new InvalidDataException(
+                    $"The excuse catalog '{path}' has an invalid item at index {index}: category and text are required.");
+        }
+
+        Items = Array.AsReadOnly(items);
+        Categories = Array.AsReadOnly(items.Select(x => x.Category).Distinct(StringComparer.OrdinalIgnoreCase).ToArray());
+    }
+
+    public Excuse Pick(string? category = null, int? variant = null)
     {
         if (category is not null && !Categories.Contains(category, StringComparer.OrdinalIgnoreCase))
             throw new ArgumentException("Unknown category.", nameof(category));
         if (variant is < 0 or > 1000)
             throw new ArgumentOutOfRangeException(nameof(variant));
 
-        var candidates = category is null
+        IReadOnlyList<Excuse> candidates = category is null
             ? Items
             : Items.Where(x => x.Category.Equals(category, StringComparison.OrdinalIgnoreCase)).ToArray();
-        return candidates[variant.HasValue ? variant.Value % candidates.Length : Random.Shared.Next(candidates.Length)];
+        return candidates[variant.HasValue ? variant.Value % candidates.Count : Random.Shared.Next(candidates.Count)];
     }
 }

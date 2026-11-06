@@ -1,0 +1,26 @@
+[
+  {
+    "category": "code",
+    "text": "It works on my machine. My machine has declined to comment."
+  },
+  {
+    "category": "code",
+    "text": "The tests passed. The users were not in the test matrix."
+  },
+  {
+    "category": "cloud",
+    "text": "The cloud is just someone else's computer having a Monday."
+  },
+  {
+    "category": "cloud",
+    "text": "We achieved zero downtime by never deploying."
+  },
+  {
+    "category": "meetings",
+    "text": "The fix is ready. It is waiting for a meeting about the meeting."
+  },
+  {
+    "category": "meetings",
+    "text": "We need alignment. The YAML already has excellent indentation."
+  }
+]

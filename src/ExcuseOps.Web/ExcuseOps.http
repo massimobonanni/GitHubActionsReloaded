@@ -1,0 +1,10 @@
+@baseUrl = http://localhost:5180
+
+### Categories derived from the JSON catalog
+GET {{baseUrl}}/api/categories
+
+### Deterministic excuse from the catalog
+GET {{baseUrl}}/api/excuses?variant=0
+
+### Invalid category returns a validation problem listing available categories
+GET {{baseUrl}}/api/excuses?category=unknown-category

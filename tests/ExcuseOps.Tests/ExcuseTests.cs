@@ -4,19 +4,22 @@ using ExcuseOps.Web;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace ExcuseOps.Tests;
 
-public class CatalogTests
+public class CatalogTests(DemoFactory factory) : IClassFixture<DemoFactory>
 {
+    private readonly IExcuseCatalog catalog = factory.Services.GetRequiredService<IExcuseCatalog>();
+
     [Theory]
     [InlineData("code")]
     [InlineData("CLOUD")]
     [InlineData("meetings")]
     public void PickHonorsCategory(string category)
     {
-        var excuse = ExcuseCatalog.Pick(category, 0);
+        var excuse = catalog.Pick(category, 0);
         Assert.Equal(category.ToLowerInvariant(), excuse.Category);
         Assert.False(string.IsNullOrWhiteSpace(excuse.Text));
     }
@@ -24,19 +27,34 @@ public class CatalogTests
     [Fact]
     public void VariantIsDeterministicAndWraps()
     {
-        Assert.Equal(ExcuseCatalog.Pick("code", 0), ExcuseCatalog.Pick("code", 2));
-        Assert.NotEqual(ExcuseCatalog.Pick("code", 0), ExcuseCatalog.Pick("code", 1));
+        Assert.Equal(catalog.Pick("code", 0), catalog.Pick("code", 2));
+        Assert.NotEqual(catalog.Pick("code", 0), catalog.Pick("code", 1));
     }
 
     [Fact]
     public void UnknownCategoryIsRejected() =>
-        Assert.Throws<ArgumentException>(() => ExcuseCatalog.Pick("blame"));
+        Assert.Throws<ArgumentException>(() => catalog.Pick("blame"));
 
     [Theory]
     [InlineData(-1)]
     [InlineData(1001)]
     public void OutOfRangeVariantIsRejected(int variant) =>
-        Assert.Throws<ArgumentOutOfRangeException>(() => ExcuseCatalog.Pick(variant: variant));
+        Assert.Throws<ArgumentOutOfRangeException>(() => catalog.Pick(variant: variant));
+
+    [Fact]
+    public void RandomPickBelongsToCatalog()
+    {
+        Assert.Contains(catalog.Pick(), catalog.Items);
+        Assert.Contains(catalog.Pick("CLOUD"), catalog.Items.Where(x => x.Category == "cloud"));
+    }
+
+    [Fact]
+    public void CatalogIsRegisteredAsSingleton()
+    {
+        using var scope = factory.Services.CreateScope();
+        Assert.IsType<ExcuseCatalog>(catalog);
+        Assert.Same(catalog, scope.ServiceProvider.GetRequiredService<IExcuseCatalog>());
+    }
 }
 
 public sealed class DemoFactory : WebApplicationFactory<Program>
@@ -64,7 +82,15 @@ public class ApiTests(DemoFactory factory) : IClassFixture<DemoFactory>
     {
         using var client = factory.CreateClient();
         var actual = await client.GetFromJsonAsync<Excuse>("/api/excuses?category=cloud&variant=0");
-        Assert.Equal(ExcuseCatalog.Pick("cloud", 0), actual);
+        Assert.Equal(factory.Services.GetRequiredService<IExcuseCatalog>().Pick("cloud", 0), actual);
+    }
+
+    [Fact]
+    public async Task CategoriesMatchCatalog()
+    {
+        using var client = factory.CreateClient();
+        var categories = await client.GetFromJsonAsync<string[]>("/api/categories");
+        Assert.Equal(factory.Services.GetRequiredService<IExcuseCatalog>().Categories, categories);
     }
 
     [Theory]
